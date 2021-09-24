@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import com.loopj.android.http.JsonHttpResponseHandler
+import com.loopj.android.http.RequestParams
+import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
+    private val movieClient=TMDBClient()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,7 +23,23 @@ class MainActivity : AppCompatActivity() {
 
         //json call
         //https://api.themoviedb.org/3/movie/550?api_key=
-        var simpleMovieAdapter=ArrayAdapter<String>(this,R.layout.movie_item,R.id.movieName,testList)
+        var simpleMovieAdapter=ArrayAdapter<String>(this,R.layout.movie_item,R.id.movieNameTextView,testList)
         movieListView.setAdapter(simpleMovieAdapter)
+
+        var movieList=ArrayList<Movie>()
+        var testMovie=Movie("posterpath","simpleTestName of the movie","really long cut short description of the movie")
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+        movieList.add(testMovie)
+
+
+        var movieAdapter=MovieAdapter(this,R.layout.movie_item,movieList).also {movieListView.adapter=it}
+
+
     }
+
 }

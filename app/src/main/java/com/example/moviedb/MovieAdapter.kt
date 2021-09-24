@@ -1,6 +1,5 @@
 package com.example.moviedb
 
-import Movie
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +7,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+
+
 
 class MovieAdapter(context: Context, resourceLayout: Int, moviesList: ArrayList<Movie>) :
     ArrayAdapter<Movie>(context, resourceLayout, moviesList) {
@@ -21,10 +23,14 @@ class MovieAdapter(context: Context, resourceLayout: Int, moviesList: ArrayList<
         val movieNameView:TextView=newView.findViewById(R.id.movieNameTextView)
         val movieShortDescView:TextView=newView.findViewById(R.id.movieDescriptionTextView)
 
-        movieNameView.setText("a")
-        moviePosterView.setImageResource(R.drawable.ic_launcher_foreground)
-        movieShortDescView.setText("b")
+        var thisItem: Movie? =getItem(position)
+        movieNameView.setOnClickListener {
+            Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show()
+        }
+        movieNameView.setText(thisItem?.movieName)
+        moviePosterView.setImageResource(R.mipmap.ic_launcher_round)
 
+        movieShortDescView.setText(thisItem?.briefSummary)
         return newView
     }
 }

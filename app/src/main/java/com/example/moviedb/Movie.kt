@@ -6,9 +6,9 @@ public class Movie (moviePoster: String,
 {
 
 
-    val movieName: String=movieName
-    val moviePoster:String=moviePoster
-    val briefSummary:String=briefSummary
+    val original_title: String=movieName
+    val poster_path:String=moviePoster
+    val overview:String=briefSummary
 }
 
 

@@ -27,10 +27,9 @@ class MovieAdapter(context: Context, resourceLayout: Int, moviesList: ArrayList<
         movieNameView.setOnClickListener {
             Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show()
         }
-        movieNameView.setText(thisItem?.movieName)
+        movieNameView.setText(thisItem?.original_title)
         moviePosterView.setImageResource(R.mipmap.ic_launcher_round)
-
-        movieShortDescView.setText(thisItem?.briefSummary)
+        movieShortDescView.setText(thisItem?.overview)
         return newView
     }
 }

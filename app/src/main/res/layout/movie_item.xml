@@ -3,30 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <ImageView
         android:id="@+id/moviePosterImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/movie_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/movie_image"
-        />
+        android:layout_marginBottom="4dp"/>
 
     <TextView
         android:id="@+id/movieNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
         app:layout_constraintBottom_toTopOf="@+id/movieDescriptionTextView"
         app:layout_constraintTop_toTopOf="parent"
-
-
-
+        app:layout_constraintLeft_toRightOf="@id/moviePosterImageView"
+        android:layout_marginLeft="4dp"
         />
 
     <TextView
@@ -34,9 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="fill_vertical"
         app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:maxLines="4"
+        android:layout_marginRight="4dp"
 
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

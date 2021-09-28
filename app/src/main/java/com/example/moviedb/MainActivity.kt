@@ -4,42 +4,53 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class MainActivity : AppCompatActivity() {
 
-    private val movieClient=TMDBClient()
+    var movieList=ArrayList<Movie>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var movieAdapter=MovieAdapter(this,R.layout.movie_item,movieList)
         var movieListView:ListView= findViewById(R.id.moviesList)
 
-        var testList=ArrayList<String>()
-
-        testList.add("a")
-        testList.add("b")
-        testList.add("c")
-
-        //json call
-        //https://api.themoviedb.org/3/movie/550?api_key=
-        var simpleMovieAdapter=ArrayAdapter(this,R.layout.movie_item,R.id.movieNameTextView,testList)
-        movieListView.setAdapter(simpleMovieAdapter)
-
-        var movieList=ArrayList<Movie>()
         var testMovie=Movie("poster path","simpleTestName of the movie","really long cut short description of the movie")
-        movieList.add(testMovie)
-        movieList.add(testMovie)
-        movieList.add(testMovie)
-        movieList.add(testMovie)
-        movieList.add(testMovie)
-        movieList.add(testMovie)
-        movieList.add(testMovie)
 
-
-        var movieAdapter=MovieAdapter(this,R.layout.movie_item,movieList).also {movieListView.adapter=it}
-        movieClient.fetchPopularMovies()
-
+        fetchPopularMovies(movieAdapter)
+        movieListView.adapter=movieAdapter
     }
 
+    fun fetchPopularMovies(movieAdapter:MovieAdapter)
+    {
+        val apiService = TMDBService()
+        val call: Call<TMDBMovieResponse> = apiService.listMovies()
+
+        call.enqueue(object: Callback<TMDBMovieResponse>
+        {
+            override fun onResponse(call: Call<TMDBMovieResponse>, response: Response<TMDBMovieResponse>)
+            {
+                val tmdbMovieResponse: TMDBMovieResponse? = response.body()
+                if (tmdbMovieResponse!=null)
+                {
+                    movieList.addAll(tmdbMovieResponse.results)
+                    movieAdapter.notifyDataSetChanged()
+                }
+                else
+                    println("NULL")
+            }
+
+            override fun onFailure(call: Call<TMDBMovieResponse>, t: Throwable) {
+                println(t.message)
+                println("reached on faliure list")
+            }
+
+        })
+    }
 }

@@ -8,10 +8,11 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
 
 
-class MovieAdapter(context: Context, resourceLayout: Int, moviesList: ArrayList<Movie>) :
+class MovieAdapter(context: Context, resourceLayout: Int, moviesList: MutableList<Movie>) :
     ArrayAdapter<Movie>(context, resourceLayout, moviesList) {
 
 

@@ -2,8 +2,11 @@ package com.example.moviedb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
+import android.os.Parcelable
 import android.widget.ListView
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -11,20 +14,35 @@ import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
-    var movieList=ArrayList<Movie>()
+    //private val LIST_STATE: String? ="liststate"
+    //private var mListState: Parcelable?= null
 
+    var movieList= mutableListOf<Movie>()
+    var moviesLoaded = false
+    var movieAdapter:MovieAdapter? = null
+    var movieListView:ListView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var movieAdapter=MovieAdapter(this,R.layout.movie_item,movieList)
-        var movieListView:ListView= findViewById(R.id.moviesList)
+        movieListView= findViewById(R.id.moviesList)
+        movieAdapter=MovieAdapter(this,R.layout.movie_item,movieList)
+        movieListView?.adapter=movieAdapter
+
+        //var viewModel1 :MyViewModel by MyViewModel(application)
+        var myViewModel=ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(MyViewModel::class.java)
 
         var testMovie=Movie("poster path","simpleTestName of the movie","really long cut short description of the movie")
 
-        fetchPopularMovies(movieAdapter)
-        movieListView.adapter=movieAdapter
+        //fetchPopularMovies(movieAdapter!!)
+        myViewModel.getMovies().observe(this, Observer{ movieSnapshot ->
+            movieList.clear()
+            movieList.addAll(movieSnapshot)
+            movieAdapter?.notifyDataSetChanged()
+        })
+
+
     }
 
     fun fetchPopularMovies(movieAdapter:MovieAdapter)
@@ -40,6 +58,7 @@ class MainActivity : AppCompatActivity() {
                 if (tmdbMovieResponse!=null)
                 {
                     movieList.addAll(tmdbMovieResponse.results)
+                    moviesLoaded=true
                     movieAdapter.notifyDataSetChanged()
                 }
                 else
@@ -53,4 +72,29 @@ class MainActivity : AppCompatActivity() {
 
         })
     }
+/*
+    override protected fun onRestart() {
+        super.onRestart()
+        if(!moviesLoaded) {
+            if (movieAdapter == null)
+                movieAdapter = MovieAdapter(this, R.layout.movie_item, movieList)
+            fetchPopularMovies(movieAdapter!!)
+        }
+        if(mListState != null){
+            movieListView?.onRestoreInstanceState(mListState)
+            mListState = null
+        }
+    }
+
+    protected override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        mListState= savedInstanceState.getParcelable(LIST_STATE)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mListState = movieListView?.onSaveInstanceState()
+        outState.putParcelable(LIST_STATE,mListState)
+    }
+*/
 }

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 
 class TMDBMovieResponse {
 
-    var results = ArrayList<Movie>()
+    var results = mutableListOf<Movie>()
 
     fun parseJson(response:String):TMDBMovieResponse{
         val gson: Gson = GsonBuilder().create()

@@ -2,9 +2,8 @@ package com.example.moviedb
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Parcelable
 import android.widget.ListView
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import retrofit2.Call
@@ -18,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     //private var mListState: Parcelable?= null
 
     var movieList= mutableListOf<Movie>()
-    var moviesLoaded = false
     var movieAdapter:MovieAdapter? = null
     var movieListView:ListView? = null
 
@@ -31,7 +29,10 @@ class MainActivity : AppCompatActivity() {
         movieListView?.adapter=movieAdapter
 
         //var viewModel1 :MyViewModel by MyViewModel(application)
-        var myViewModel=ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(MyViewModel::class.java)
+        //var myViewModel=ViewModelProvider.AndroidViewModelFactory.getInstance(application).create(MyViewModel::class.java)
+        //use get() instead of create() everytime configuration changes
+
+        var myViewModel= ViewModelProvider(this).get(MyViewModel::class.java)
 
         var testMovie=Movie("poster path","simpleTestName of the movie","really long cut short description of the movie")
 
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun fetchPopularMovies(movieAdapter:MovieAdapter)
+    /*fun fetchPopularMovies(movieAdapter:MovieAdapter)
     {
         val apiService = TMDBService()
         val call: Call<TMDBMovieResponse> = apiService.listMovies()
@@ -71,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-    }
+    }*/
 /*
     override protected fun onRestart() {
         super.onRestart()

@@ -31,7 +31,9 @@ class MovieAdapter(context: Context, resourceLayout: Int, moviesList: MutableLis
         movieNameView.text = thisItem?.original_title
         moviePosterView.setImageResource(R.mipmap.ic_launcher_round)
         movieShortDescView.setText(thisItem?.overview)
-        println(message = thisItem?.poster_path)
+
+        println(position.toString()+" "+thisItem?.poster_path)
+
         //load image
         Glide.with(context)
             .load("https://image.tmdb.org/t/p/"+"w500"+thisItem?.poster_path)

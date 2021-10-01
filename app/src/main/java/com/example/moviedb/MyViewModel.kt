@@ -1,14 +1,17 @@
 package com.example.moviedb
 
 import android.app.Application
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.delay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlinx.coroutines.flow.Flow
+import java.io.IOException
 
 class MyViewModel() : ViewModel(){
 
@@ -20,7 +23,7 @@ class MyViewModel() : ViewModel(){
         return movieList
     }
 
-    private fun fetchMovies(){
+    private fun fetchMovies() {
         val apiService = TMDBService()
         val call: Call<TMDBMovieResponse> = apiService.listMovies()
 
@@ -32,6 +35,7 @@ class MyViewModel() : ViewModel(){
                 if (tmdbMovieResponse!=null)
                 {
                     movieList.value =tmdbMovieResponse.results
+                    println("response received Total-"+tmdbMovieResponse.results.size)
                 }
                 else
                     println("NULL")
@@ -45,6 +49,8 @@ class MyViewModel() : ViewModel(){
         })
 
     }
+
+
 }
 
 

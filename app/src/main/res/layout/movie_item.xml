@@ -3,41 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/moviePosterImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:contentDescription="@string/movie_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        android:layout_marginBottom="4dp"/>
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/movieNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/movieDescriptionTextView"
+        app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/moviePosterImageView"
-        android:layout_marginLeft="4dp"
-        />
+        tools:text="Fight Club" />
 
     <TextView
         android:id="@+id/movieDescriptionTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="fill_vertical"
-        app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:maxLines="4"
-        android:layout_marginRight="4dp"
+        android:ellipsize="end"
+        android:singleLine="false"
+        android:justificationMode="inter_word"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/moviePosterImageView"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintTop_toBottomOf="@id/movieNameTextView"
+        tools:text='A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground "fight clubs" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.' />
 
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

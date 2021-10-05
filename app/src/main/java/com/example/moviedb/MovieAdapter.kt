@@ -7,38 +7,78 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.Glide
-
 
 class MovieAdapter(context: Context, resourceLayout: Int, moviesList: MutableList<Movie>) :
     ArrayAdapter<Movie>(context, resourceLayout, moviesList) {
 
+    class ViewHolder {
+        var moviePosterView: ImageView? = null
+        var movieNameView: TextView? = null
+        var movieShortDescView: TextView? = null
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val thisItem: Movie? = getItem(position)
+
+        val newView: View =
+            convertView ?: LayoutInflater.from(context).inflate(R.layout.movie_item, parent, false)
+
+        val viewHolder: ViewHolder = if (convertView == null) {
+            ViewHolder()
+        } else {
+            convertView.tag as ViewHolder
+        }
+
+        viewHolder.movieNameView = newView.findViewById(R.id.movieNameTextView)
+        viewHolder.moviePosterView = newView.findViewById(R.id.moviePosterImageView)
+        viewHolder.movieShortDescView = newView.findViewById(R.id.movieDescriptionTextView)
+
+        // Cache the viewHolder object inside the fresh view
+        newView.tag = viewHolder
+
+        viewHolder.movieNameView?.text = thisItem?.original_title
+        viewHolder.moviePosterView?.setImageResource(R.mipmap.ic_launcher_round)
+        viewHolder.movieShortDescView?.text = thisItem?.overview
+
+        println(position.toString() + " " + thisItem?.poster_path)
+
+        //load image
+        viewHolder.moviePosterView?.let {
+            Glide.with(context)
+                .load("https://image.tmdb.org/t/p/" + "w500" + thisItem?.poster_path)
+                .override(500, 400)
+                .into(it)
+        }
+        return newView
+    }
+}
+/*
         val newView:View =
             convertView ?: LayoutInflater.from(context).inflate(R.layout.movie_item, parent, false)
 
         val moviePosterView:ImageView = newView.findViewById(R.id.moviePosterImageView)
-        val movieNameView:TextView=newView.findViewById(R.id.movieNameTextView)
-        val movieShortDescView:TextView=newView.findViewById(R.id.movieDescriptionTextView)
+        val movieNameView:TextView = newView.findViewById(R.id.movieNameTextView)
+        val movieShortDescView:TextView = newView.findViewById(R.id.movieDescriptionTextView)
 
-        val thisItem: Movie? =getItem(position)
+
         movieNameView.setOnClickListener {
             Toast.makeText(context, "hello", Toast.LENGTH_SHORT).show()
         }
-        movieNameView.text = thisItem?.original_title
-        moviePosterView.setImageResource(R.mipmap.ic_launcher_round)
-        movieShortDescView.setText(thisItem?.overview)
+
+ *//*
+        viewHolder!!.movieNameView?.text ?: thisItem?.original_title
+        viewHolder.moviePosterView?.setImageResource(R.mipmap.ic_launcher_round)
+        viewHolder.movieShortDescView?.setText(thisItem?.overview)
 
         println(position.toString()+" "+thisItem?.poster_path)
 
         //load image
-        Glide.with(context)
-            .load("https://image.tmdb.org/t/p/"+"w500"+thisItem?.poster_path)
-            .override(500,400)
-            .into(moviePosterView)
-        return newView
-    }
-}
+        viewHolder?.moviePosterView?.let {
+            Glide.with(context)
+                .load("https://image.tmdb.org/t/p/"+"w500"+thisItem?.poster_path)
+                .override(500,400)
+                .into(it)
+        }
+
+        return newView*/

@@ -24,5 +24,7 @@ class MovieSummary : AppCompatActivity() {
         movieNameView.text=movie?.original_title
         movieNameView.setTypeface(Typeface.DEFAULT_BOLD)
         movieOverviewView.text=movie?.overview
+
+        //https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key=<<api_key>>&language=en-US
     }
 }

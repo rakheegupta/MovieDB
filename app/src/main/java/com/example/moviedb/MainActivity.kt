@@ -1,5 +1,6 @@
 package com.example.moviedb
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
@@ -43,6 +44,16 @@ class MainActivity : AppCompatActivity() {
                 movieAdapter?.notifyDataSetChanged()
             })
 
+        movieAdapter?.movieListener=object : MovieAdapter.MyCustomObjectListener{
+            override fun displayMovie(
+                movie :Movie?
+            ) {
+                val intent= Intent(this@MainActivity,MovieSummary::class.java)
+                intent.putExtra("movie",movie)
+                startActivity(intent)
+            }
+
+        }
     }
 
     private fun isNetworkAvailable(): Boolean {

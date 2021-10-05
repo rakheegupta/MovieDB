@@ -1,6 +1,8 @@
 package com.example.moviedb
 
 import android.content.Context
+import android.content.res.Configuration
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,15 +45,45 @@ class MovieAdapter(context: Context, resourceLayout: Int, moviesList: MutableLis
 
         println(position.toString() + " " + thisItem?.poster_path)
 
-        //load image
-        viewHolder.moviePosterView?.let {
-            Glide.with(context)
-                .load("https://image.tmdb.org/t/p/" + "w500" + thisItem?.poster_path)
-                .override(500, 400)
-                .into(it)
+        //get orientation
+        var orientation:Int = context.resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            //load image
+            viewHolder.moviePosterView?.let {
+                Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/" + "w500" + thisItem?.backdrop_path)
+                    .override(800, 600)
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(it)
+            }
+        } else {
+
+            //load image
+            viewHolder.moviePosterView?.let {
+                Glide.with(context)
+                    .load("https://image.tmdb.org/t/p/" + "w500" + thisItem?.poster_path)
+                    .override(500, 400)
+                    .into(it)
+            }
         }
+        newView.setOnClickListener(
+            View.OnClickListener {
+                    view ->
+                movieListener?.displayMovie(thisItem)
+            })
+
         return newView
     }
+
+    interface MyCustomObjectListener{
+        fun displayMovie(movie:Movie?)
+    }
+    var movieListener : MyCustomObjectListener? =null
+    fun setCustomObjectListener(listener: MyCustomObjectListener){
+        movieListener=listener
+    }
+
 }
 /*
         val newView:View =

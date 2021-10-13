@@ -1,28 +1,25 @@
-package com.example.moviedb
+package com.example.moviedb.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
+import android.view.View
 import android.widget.ListView
 import android.widget.Toast
-import androidx.lifecycle.Lifecycle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.IOException
-import android.net.NetworkInfo
-
-import android.net.ConnectivityManager
-import android.os.Build
-
+import com.example.moviedb.model.Movie
+import com.example.moviedb.MovieAdapter
+import com.example.moviedb.MyViewModel
+import com.example.moviedb.R
 
 class MainActivity : AppCompatActivity() {
 
     var movieList= mutableListOf<Movie>()
-    var movieAdapter:MovieAdapter? = null
-    var movieListView:ListView? = null
+    var movieAdapter: MovieAdapter? = null
+    var movieListView: ListView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,16 +41,29 @@ class MainActivity : AppCompatActivity() {
                 movieAdapter?.notifyDataSetChanged()
             })
 
-        movieAdapter?.movieListener=object : MovieAdapter.MyCustomObjectListener{
-            override fun displayMovie(
-                movie :Movie?
-            ) {
+        /*movieAdapter?.movieListener=object : MovieAdapter.MyCustomObjectListener{
+            override fun displayMovie(movie :Movie?)
+            {
                 val intent= Intent(this@MainActivity,MovieSummary::class.java)
                 intent.putExtra("movie",movie)
                 startActivity(intent)
             }
+            override fun onClick(p0: View?) {
+                TODO("Not yet implemented")
+            }
+        }*/
+        movieAdapter?.setCustomObjectListener(object : MovieAdapter.MyCustomObjectListener {
+            override fun displayMovie(movie : Movie?)
+            {
+                val intent= Intent(this@MainActivity, MovieSummaryActivity::class.java)
+                intent.putExtra("movie",movie)
+                startActivity(intent)
+            }
 
-        }
+            override fun onClick(p0: View?) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun isNetworkAvailable(): Boolean {

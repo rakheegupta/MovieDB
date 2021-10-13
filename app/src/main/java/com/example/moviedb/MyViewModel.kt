@@ -1,17 +1,12 @@
 package com.example.moviedb
 
-import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.delay
+import com.example.moviedb.model.Movie
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlinx.coroutines.flow.Flow
-import java.io.IOException
 
 class MyViewModel() : ViewModel(){
 
@@ -43,7 +38,7 @@ class MyViewModel() : ViewModel(){
 
             override fun onFailure(call: Call<TMDBMovieResponse>, t: Throwable) {
                 println(t.message)
-                println("reached on faliure list")
+                println("reached on faliure ")
             }
 
         })

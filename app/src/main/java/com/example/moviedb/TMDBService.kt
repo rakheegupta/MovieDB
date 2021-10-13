@@ -8,13 +8,13 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+
 const val api_key:String = "69694a19e98df7f5c79b13285d536102"
+
 interface TMDBService {
 
     @GET("movie/now_playing")
-    fun listMovies( ): Call<TMDBMovieResponse>
+    fun listMovies(): Call<TMDBMovieResponse>
 
     companion object {
 

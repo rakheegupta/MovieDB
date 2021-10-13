@@ -14,7 +14,8 @@
         android:theme="@style/Theme.MovieDB">
         <activity
             android:name=".activities.MovieSummaryActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".activities.MainActivity"/>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">

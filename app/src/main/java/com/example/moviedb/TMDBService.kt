@@ -14,7 +14,7 @@ const val api_key:String = "69694a19e98df7f5c79b13285d536102"
 interface TMDBService {
 
     @GET("movie/now_playing")
-    fun listMovies(): Call<TMDBMovieResponse>
+    fun getMoviesFromTMDB(): Call<TMDBMovieResponse>
 
     companion object {
 

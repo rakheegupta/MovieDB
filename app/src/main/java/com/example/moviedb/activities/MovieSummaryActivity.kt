@@ -24,7 +24,7 @@ class MovieSummaryActivity : AppCompatActivity() {
         //show image
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/" + "original" + movie?.backdrop_path)
-            .override(resources.displayMetrics.widthPixels,resources.displayMetrics.heightPixels/2)
+            .override(resources.displayMetrics.widthPixels,resources.displayMetrics.heightPixels)
             .placeholder(R.drawable.ic_launcher_background)
             .into(movieImageView)
         //show title
@@ -34,5 +34,9 @@ class MovieSummaryActivity : AppCompatActivity() {
         movieOverviewView.text=movie?.overview
         //show related videos use following api
         //https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key=<<api_key>>&language=en-US
+    }
+
+    fun addToFavorites(view: android.view.View) {
+        with(view as ImageView) { setImageResource(android.R.drawable.star_big_on) }
     }
 }

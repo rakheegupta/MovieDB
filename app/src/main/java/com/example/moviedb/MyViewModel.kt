@@ -8,19 +8,24 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MyViewModel() : ViewModel(){
+class MyViewModel() : ViewModel() {
 
     private var movieList: MutableLiveData<MutableList<Movie>> = MutableLiveData<MutableList<Movie>>().also {
         fetchMovies()
     }
+    private var bookmarkedMovies: MutableLiveData<MutableList<Movie>> = MutableLiveData<MutableList<Movie>>()
 
     fun getMovies() :LiveData<MutableList<Movie>>{
         return movieList
     }
 
+    fun getBookmarkedMovies() : LiveData<MutableList<Movie>>{
+        return bookmarkedMovies
+    }
+
     private fun fetchMovies() {
         val apiService = TMDBService()
-        val call: Call<TMDBMovieResponse> = apiService.listMovies()
+        val call: Call<TMDBMovieResponse> = apiService.getMoviesFromTMDB()
 
         call.enqueue(object: Callback<TMDBMovieResponse>
         {

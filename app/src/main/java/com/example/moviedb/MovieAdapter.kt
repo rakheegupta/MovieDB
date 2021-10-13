@@ -62,6 +62,7 @@ class MovieAdapter(context: Context, resourceLayout: Int, moviesList: MutableLis
             Glide.with(context)
                  .load("https://image.tmdb.org/t/p/" + "w500" + currentItem?.poster_path)
                  .override(500, 400)
+                 .placeholder(R.drawable.ic_launcher_background)
                  .into(viewHolder.moviePosterView!!)
         }
         currentView.setOnClickListener { movieListener?.displayMovie(movie = currentItem) }

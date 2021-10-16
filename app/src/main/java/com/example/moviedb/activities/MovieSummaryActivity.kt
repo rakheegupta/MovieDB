@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.moviedb.MovieDao
 import com.example.moviedb.model.Movie
 import com.example.moviedb.R
 
@@ -38,5 +39,6 @@ class MovieSummaryActivity : AppCompatActivity() {
 
     fun addToFavorites(view: android.view.View) {
         with(view as ImageView) { setImageResource(android.R.drawable.star_big_on) }
+        //val movieDao:MovieDao=applicationContext.
     }
 }

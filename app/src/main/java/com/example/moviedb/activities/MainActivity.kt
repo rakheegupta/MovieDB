@@ -12,14 +12,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviedb.model.Movie
 import com.example.moviedb.MovieAdapter
-import com.example.moviedb.MyViewModel
+import com.example.moviedb.viewmodel.MyViewModel
 import com.example.moviedb.R
 
 class MainActivity : AppCompatActivity() {
 
-    var movieList= mutableListOf<Movie>()
-    var movieAdapter: MovieAdapter? = null
-    var movieListView: ListView? = null
+    private var movieList= mutableListOf<Movie>()
+    private var favMovieList= mutableListOf<Movie>()
+    private var movieAdapter: MovieAdapter? = null
+    private var movieListView: ListView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +31,8 @@ class MainActivity : AppCompatActivity() {
         movieListView?.adapter = movieAdapter
 
         if (!isNetworkAvailable()) {
-            Toast.makeText(this, "Network unavailable. Try again later.", Toast.LENGTH_LONG).show();
-            return;
+            Toast.makeText(this, "Network unavailable. Try again later.", Toast.LENGTH_LONG).show()
+            return
         }
 
         var myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
@@ -40,6 +41,16 @@ class MainActivity : AppCompatActivity() {
                 movieList.addAll(movieSnapshot)
                 movieAdapter?.notifyDataSetChanged()
             })
+
+        myViewModel.getBookmarkedMovies()?.observe(this, { favMovies ->
+            if (favMovies!=null){
+                favMovieList.clear()
+                favMovieList.addAll(favMovies)
+                for(each in favMovies)
+                    println("favourite movies - ${each.id} - ${each.original_title}")
+            }
+
+        })
 
         /*movieAdapter?.movieListener=object : MovieAdapter.MyCustomObjectListener{
             override fun displayMovie(movie :Movie?)
@@ -55,8 +66,12 @@ class MainActivity : AppCompatActivity() {
         movieAdapter?.setCustomObjectListener(object : MovieAdapter.MyCustomObjectListener {
             override fun displayMovie(movie : Movie?)
             {
-                val intent= Intent(this@MainActivity, MovieSummaryActivity::class.java)
+                val intent= Intent(
+                    this@MainActivity,
+                    MovieSummaryActivity1::class.java
+                )
                 intent.putExtra("movie",movie)
+                intent.putExtra("isMovieFav",isMovieFav(movie))
                 startActivity(intent)
             }
 
@@ -64,6 +79,12 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    private fun isMovieFav(movie: Movie?): Boolean {
+        if(favMovieList.contains(movie))
+            return true
+        return false
     }
 
     private fun isNetworkAvailable(): Boolean {

@@ -1,4 +1,4 @@
-package com.example.moviedb
+package com.example.moviedb.viewmodel
 
 import okhttp3.HttpUrl
 import okhttp3.Interceptor

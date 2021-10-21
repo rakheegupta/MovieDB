@@ -8,7 +8,7 @@ class TMDBMovieResponse {
 
     var results = mutableListOf<Movie>()
 
-    fun parseJson(response:String): TMDBMovieResponse {
+    /*fun parseJson(response:String): TMDBMovieResponse {
         val gson: Gson = GsonBuilder().create()
         return gson.fromJson(response, TMDBMovieResponse::class.java)
     }
@@ -19,5 +19,5 @@ class TMDBMovieResponse {
             response,
             TMDBMovieResponse::class.java
         )
-    }
+    }*/
 }

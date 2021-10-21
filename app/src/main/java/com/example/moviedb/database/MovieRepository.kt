@@ -5,10 +5,10 @@ import com.example.moviedb.model.Movie
 
 class MovieRepository(private val mMovieDao: MovieDao?) {
 
-    private var favoriteMovies: LiveData<List<Movie>>? = mMovieDao?.getAllFavorites()
+    //private var favoriteMovies: LiveData<List<Movie>>? = mMovieDao?.getAllFavorites()
 
     fun getFavoriteMovies(): LiveData<List<Movie>>?{
-        return favoriteMovies
+        return mMovieDao?.getAllFavorites()
     }
 
     suspend fun insert(movie:Movie){

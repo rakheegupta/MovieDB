@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.moviedb.model.Movie
 
 @Database(entities = [Movie::class], version = 2, exportSchema = false)
-abstract class MyDatabase1 : RoomDatabase() {
+abstract class MyDatabase : RoomDatabase() {
 
     // Declare your data access objects as abstract
     abstract fun movieDao(): MovieDao
@@ -16,15 +16,15 @@ abstract class MyDatabase1 : RoomDatabase() {
         // Database name to be used
         private const val NAME = "MyDatabase"
         @Volatile
-        private var INSTANCE: MyDatabase1? = null
+        private var INSTANCE: MyDatabase? = null
 
-        fun getDatabase(application: Application): MyDatabase1? {
+        fun getDatabase(application: Application): MyDatabase? {
             if (INSTANCE == null) {
                 synchronized(this) {
                     if (INSTANCE == null) {
                         INSTANCE = Room.databaseBuilder(
                             application.applicationContext,
-                            MyDatabase1::class.java,
+                            MyDatabase::class.java,
                             NAME
                         ) // Wipes and rebuilds instead of migrating
                             // if no Migration object.

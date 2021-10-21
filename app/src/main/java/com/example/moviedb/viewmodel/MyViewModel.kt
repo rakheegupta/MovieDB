@@ -1,32 +1,27 @@
 package com.example.moviedb.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.moviedb.database.MovieRepository
 import com.example.moviedb.model.Movie
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import androidx.lifecycle.viewModelScope
-import com.example.moviedb.database.MyDatabase1
+import com.example.moviedb.database.MyDatabase
 import kotlinx.coroutines.launch
 
 class MyViewModel(application:Application) : AndroidViewModel(application) {
 
-    private var movieList: MutableLiveData<MutableList<Movie>> = MutableLiveData<MutableList<Movie>>().also {
-        fetchMovies()
-    }
-
+    private val movieList = MutableLiveData<MutableList<Movie>>()
     private val bookmarkedMovies: LiveData<List<Movie>>?
     private val mMovieRepository: MovieRepository
 
     init{
-        val mMovieDao = MyDatabase1.getDatabase(application)?.movieDao()
+        val mMovieDao = MyDatabase.getDatabase(application)?.movieDao()
         mMovieRepository = MovieRepository(mMovieDao)
         bookmarkedMovies = mMovieRepository.getFavoriteMovies()
+        fetchMovies()
     }
     fun getMovies() :LiveData<MutableList<Movie>>{
         return movieList

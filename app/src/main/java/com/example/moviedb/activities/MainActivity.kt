@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
             {
                 val intent= Intent(
                     this@MainActivity,
-                    MovieSummaryActivity1::class.java
+                    MovieSummaryActivity::class.java
                 )
                 intent.putExtra("movie",movie)
                 intent.putExtra("isMovieFav",isMovieFav(movie))
